@@ -1,0 +1,57 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <h3>Welcome <span class="text-capitalize"> {{ request.user.email}}</span></h3>
+  <div class="col-sm-2 border-end">
+   <ul class="list-unstyled">
+    <li class="d-grid">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-danger btn-sm" value="Submit">
+    </form>
+    <a href="{% url 'addclient' %}" class="btn btn-warning">Add Client</a>
+    </li>
+   </ul>
+  </div>
+  <div class="col-sm-8 offset-sm-1" id="resizeMe",class="table">
+    <h1>All Days Working Details</h1>
+        {% if stu %}
+         <table class="table table-hover">
+           <thead>
+             <tr>
+               <th scope="col">ID</th>
+               <th scope="col">Area Visited</th>
+               <th scope="col">Total Person</th>
+               <th scope="col">Client</th>
+               <th scope="col">DateTime</th>
+             </tr>
+           </thead>
+           <tbody>
+            {% for st in stu %}
+             <tr>
+               <th scope="row">{{st.id}}</th>
+               <td>{{st.area_visited}}</td>
+               <td>{{st.total_person}}</td>
+               <td>{{st.number_of_leads}}</td>
+               <td>{{st.date}}</td>
+               <td> 
+             </tr>
+            {% endfor %}
+           </tbody>
+         </table>
+      
+        {% else %}
+         <h4 class="text-center alert alert-warning">No Records</h4>
+        {% endif %}
+   {% if messages %}
+   {% for message in messages %}
+   <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+   {% endfor %} 
+   {% endif %}
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
